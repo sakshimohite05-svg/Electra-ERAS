@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.settings-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* Title */
+.settings-container h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Card */
+.settings-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(12px);
+    transition: 0.3s ease;
+}
+
+.settings-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Section title */
+.settings-card h3 {
+    margin-bottom: 15px;
+    color: #cbd5f5;
+}
+
+/* Text */
+.settings-card p {
+    margin: 6px 0;
+    font-size: 15px;
+}
+
+/* Button */
+.settings-btn {
+    display: inline-block;
+    margin-top: 12px;
+    background: #1e3a8a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.settings-btn:hover {
+    background: #3b82f6;
+}
+
+/* Save button section */
+.save-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.save-section button {
+    background: linear-gradient(45deg,#3b82f6,#2563eb);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.save-section button:hover {
+    transform: scale(1.05);
+}
+
+/* Add spacing feel */
+.settings-card::after {
+    content: "";
+    display: block;
+    height: 5px;
+}
+</style>
+
+<div class="settings-container">
+
+    <h2>⚙ Account Settings</h2>
+
+    <!-- FORM START (IMPORTANT FIX) -->
+    <form method="POST">
+
+        <!-- PROFILE SECTION -->
+        <div class="settings-card">
+            <h3>👤 Profile</h3>
+            <p><b>Username:</b> {{ session.username }}</p>
+            <p><b>Email:</b> {{ settings.email if settings else "Not available" }}</p>
+            <p><b>Last Login:</b> {{ session.last_login if session.last_login else "First Login" }}</p>
+            <a href="/profile" class="settings-btn">View Profile</a>
+        </div>
+        <div class="settings-card">
+            <h3>📊 Account Info</h3>
+            <p><b>Role:</b> {{ session.role|capitalize }}</p>
+            <p><b>Status:</b> Active</p>
+            <p><b>Account Type:</b> Standard User</p>
+        </div>
+        <!-- SECURITY -->
+        <div class="settings-card">
+            <h3>🔐 Security</h3>
+            <p>Password is protected and securely stored.</p>
+            <a href="/change-password" class="settings-btn">Change Password</a>
+        </div>
+        <div class="settings-card">
+    <h3 style="color:#ef4444;">⚠ Danger Zone</h3>
+
+    <p style="opacity:0.7; font-size:14px;">
+        Deleting your account is permanent and cannot be undone.
+    </p>
+<button 
+    type="button"
+    onclick="openModal()"
+    style="background:#dc2626; color:white; border:none; padding:10px 18px; border-radius:8px;">
+    Delete Account
+</button>
+   
+</div>
+<div id="deleteModal" class= "modal">
+  <div class="modal-content">
+    <h3>⚠️ Delete Account</h3>
+    <p>This action cannot be undone.</p>
+
+    <div class="modal-buttons">
+      <button onclick="confirmDelete()" class="delete-btn">Delete</button>
+      <button onclick="closeModal()" class="cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+        <!-- SAVE -->
+        <div class="save-section">
+            <button type="submit">💾 Save Settings</button>
+        </div>
+
+    </form>
+    <!-- FORM END -->
+
+</div>
+<script>
+function openModal() {
+  document.getElementById("deleteModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("deleteModal").style.display = "none";
+}
+
+function confirmDelete() {
+  fetch("/delete-account", {
+    method: "POST"
+  })
+  .then(response => {
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  })
+  .catch(error => console.error("Error:", error));
+}
+</script>
+
+{% endblock %}

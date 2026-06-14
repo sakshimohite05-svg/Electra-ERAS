@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="display:flex; justify-content:center; align-items:center; height:90vh;">
+
+    <div style="
+        width:400px;
+        padding:40px;
+        background:rgba(255,255,255,0.05);
+        border-radius:15px;
+        backdrop-filter:blur(10px);
+    ">
+
+        <h2 style="text-align:center; margin-bottom:10px;">Create Account</h2>
+        <p style="text-align:center; opacity:0.7; margin-bottom:30px;">
+            Register to access ELECTRA
+        </p>
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   required
+                   style="width:100%;
+                          padding:10px;
+                          margin-bottom:20px;
+                          border-radius:8px;
+                          border:none;">
+
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   required
+                   style="width:100%;
+                          padding:10px;
+                          margin-bottom:20px;
+                          border-radius:8px;
+                          border:none;">
+
+            <label>Password</label>
+
+            <div style="position:relative; margin-bottom:20px;">
+                <input type="password"
+                       name="password"
+                       id="registerPassword"
+                       required
+                       style="width:100%;
+                              padding:10px 40px 10px 10px;
+                              border-radius:8px;
+                              border:none;">
+
+                <span onclick="toggleRegisterPassword()"
+                      style="position:absolute;
+                             right:10px;
+                             top:50%;
+                             transform:translateY(-50%);
+                             cursor:pointer;">
+                    👁
+                </span>
+            </div>
+
+            <button type="submit"
+                    style="width:100%;
+                           padding:12px;
+                           border:none;
+                           border-radius:8px;
+                           background:#3b82f6;
+                           color:white;">
+                Register
+            </button>
+
+        </form>
+
+        <p style="text-align:center; margin-top:20px;">
+            Already have an account?
+            <a href="{{ url_for('login') }}" style="color:#60a5fa;">
+                Login here
+            </a>
+        </p>
+
+    </div>
+</div>
+
+<script>
+function toggleRegisterPassword() {
+    var pass = document.getElementById("registerPassword");
+
+    if (pass.type === "password") {
+        pass.type = "text";
+    } else {
+        pass.type = "password";
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="page-title">Dashboard</h2>
+
+<div class="dashboard-grid">
+    <div class="dash-card">
+        <span>Total Electors</span>
+        <h3>{{ t.total_electors }}</h3>
+    </div>
+
+    <div class="dash-card">
+        <span>Voted</span>
+        <h3>{{ voted }}</h3>
+    </div>
+
+    <div class="dash-card">
+        <span>Not Voted</span>
+        <h3>{{ not_voted }}</h3>
+    </div>
+
+    <div class="dash-card">
+        <span>Feedbacks</span>
+        <h3>{{ feedbacks }}</h3>
+    </div>
+</div>
+
+{% endblock %}

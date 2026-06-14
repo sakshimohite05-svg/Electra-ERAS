@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.analysis-container {
+    padding: 40px;
+}
+
+/* Title */
+.analysis-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Winner card */
+.winner-card {
+    background: rgba(34,197,94,0.15);
+    border: 1px solid #22c55e;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+/* Table */
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.analysis-table th {
+    background: #1f4a7c;
+    padding: 12px;
+    text-align: left;
+}
+
+.analysis-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.analysis-table tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+</style>
+
+<div class="analysis-container">
+
+    <!-- TITLE -->
+    <h2 class="analysis-title">📊 Party-wise Vote Analysis</h2>
+
+    <!-- WINNER -->
+    {% if winner %}
+    <div class="winner-card">
+        🏆 Winning Party: <b>{{ winner.party }}</b> 
+        ({{ winner.total_votes }} votes)
+    </div>
+    {% else %}
+    <div class="winner-card" style="border-color:#ef4444;color:#ef4444;">
+        No data available
+    </div>
+    {% endif %}
+
+    <!-- TABLE -->
+    <table class="analysis-table">
+        <thead>
+            <tr>
+                <th>Region</th>
+                <th>Party</th>
+                <th>Votes</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.region }}</td>
+                <td>{{ row.party }}</td>
+                <td>{{ row.total_votes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

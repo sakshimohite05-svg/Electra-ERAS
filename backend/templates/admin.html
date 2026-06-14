@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="ui-card">
+    <h2>Admin – Electors</h2>
+
+    <!-- Messages Button -->
+    <div style="margin:20px 0;">
+        <a href="{{ url_for('view_contacts') }}" class="btn btn-primary">
+    View Contact Messages
+</a>
+           style="
+         
+         display:inline-block;
+           padding:12px 20px;
+           background:#1e3a5f;
+           color:white;
+           border-radius:8px;
+           text-decoration:none;
+           font-weight:500;">
+           📩 Manage Contact Messages
+        </a>
+    </div>
+<div class="admin-option">
+    <a href="{{ url_for('admin_messages') }}" class="admin-btn">
+        📩 Manage Contact Messages
+    </a>
+</div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Region</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% if electors %}
+            {% for e in electors %}
+            <tr>
+                <td>{{ e.id }}</td>
+                <td>{{ e.name }}</td>
+                <td>{{ e.region }}</td>
+                <td>{{ e.status }}</td>
+                <td>
+                    <a href="/admin/delete/{{ e.id }}" class="btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" style="text-align:center;">No electors found</td>
+            </tr>
+        {% endif %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}

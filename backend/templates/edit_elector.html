@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Elector</h2>
+
+<form method="POST">
+  <input name="name" value="{{ elector.name }}" required>
+  <input name="region" value="{{ elector.region }}" required>
+  <select name="status">
+    <option {{ 'selected' if elector.status=='Voted' }}>Voted</option>
+    <option {{ 'selected' if elector.status=='Not Voted' }}>Not Voted</option>
+  </select>
+  <button>Update</button>
+</form>
+
+{% endblock %}

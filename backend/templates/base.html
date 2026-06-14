@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ELECTION RELATED ANALYSIS SYSTEM</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dark">
+
+<!-- HEADER -->
+<header class="main-header">
+    <h1 class="logo-text">ELECTRA</h1>
+</header>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <ul class="nav-left">
+
+        {% if session.get("username") %}
+            <li><a href="/electra">{{ t.home }}</a></li>
+            <li><a href="/dashboard">{{ t.dashboard }}</a></li>
+            <li><a href="/analysis">{{ t.analysis }}</a></li>
+            <li><a href="/electors">{{ t.electors }}</a></li>
+
+            <!-- ✅ ADMIN SECTION -->
+            
+            <li><a href="/party-analysis">Party Analysis</a></li>
+
+        {% if session.get('role') == 'admin' %}
+            <li>
+             <a href="{{ url_for('admin_electors') }}">
+            {{ t.admin if t.admin else 'Admin' }}
+            </a>
+             </li>
+        {% endif %}
+            <li><a href="/contact">{{ t.contact }}</a></li>
+            <li><a href="/feedback">{{ t.feedback }}</a></li>
+        {% endif %}
+
+    </ul>
+
+    <div class="nav-right">
+        {% if session.get("username") %}
+
+            <div class="profile-dropdown">
+                <button class="profile-btn">
+                    👤 {{ session.get("username") }} ⌄
+                </button>
+
+                <div class="dropdown-content">
+                    <a href="/profile">👤 My Profile</a>
+                    <a href="/settings">⚙ Settings</a>
+                    <a href="/logout">🔓 Logout</a>
+                </div>
+            </div>
+
+        {% else %}
+            <a href="/login" class="nav-auth">🔐 {{ t.login }}</a>
+        {% endif %}
+    </div>
+   
+</nav>
+
+<!-- PAGE CONTENT -->
+<main class="page-content">
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

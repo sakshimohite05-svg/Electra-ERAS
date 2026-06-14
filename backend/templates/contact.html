@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- FLASH MESSAGE -->
+<!-- FLASH MESSAGE -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      
+      {% if category == 'success' %}
+        <div style="
+          margin:20px auto;
+          max-width:1200px;
+          padding:12px 18px;
+          border-radius:8px;
+          background-color:#1e3a5f;
+          color:white;
+          font-weight:500;">
+          {{ message }}
+        </div>
+      {% else %}
+        <div style="
+          margin:20px auto;
+          max-width:1200px;
+          padding:12px 18px;
+          border-radius:8px;
+          background-color:#5f1e1e;
+          color:white;
+          font-weight:500;">
+          {{ message }}
+        </div>
+      {% endif %}
+
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+<div class="contact-page">
+
+  <!-- ABOUT SECTION -->
+  <div class="about-card">
+    <h2>About Us</h2>
+    <p>
+      The <strong>Election Analysis System</strong> is a secure and transparent
+      digital platform developed to analyze electoral participation, manage
+      elector data, and present real-time voting insights.
+    </p>
+
+    <ul>
+      <li>✔ Secure & Role-Based Access</li>
+      <li>✔ Real-Time Election Analytics</li>
+      <li>✔ Transparent Data Monitoring</li>
+      <li>✔ Government-Grade Design</li>
+    </ul>
+  </div>
+
+  <!-- CONTACT FORM -->
+  <div class="contact-card">
+    <h2>Contact Us</h2>
+
+    <form method="POST">
+      <label>Name</label>
+      <input type="text" name="name" placeholder="Enter your name" required>
+
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Enter your email" required>
+
+      <label>Message</label>
+      <textarea name="message" rows="5" placeholder="Write your message..." required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}

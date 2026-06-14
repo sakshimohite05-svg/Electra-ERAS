@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container" style="max-width:600px; margin:50px auto;">
+
+    <h2 style="margin-bottom:30px;">Add New Elector</h2>
+
+    <form method="POST" action="{{ url_for('add_elector') }}">
+
+        <div style="margin-bottom:20px;">
+            <label>Name</label>
+            <input type="text" name="name" required
+                   style="width:100%; padding:10px; border-radius:8px;">
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <label>Region</label>
+            <input type="text" name="region" required
+                   style="width:100%; padding:10px; border-radius:8px;">
+        </div>
+
+        <button type="submit"
+                style="width:100%; padding:12px; border-radius:8px;
+                       background:#2f6df6; color:white; border:none;">
+            Add Elector
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

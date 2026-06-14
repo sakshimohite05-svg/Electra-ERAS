@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-container">
+  <h2 class="page-title">Electors List</h2>
+
+  <form method="GET" action="{{ url_for('electors') }}"
+      style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
+
+    <input type="text" name="name" placeholder="Search Name"
+           value="{{ request.args.get('name','') }}"
+           style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+
+    <input type="text" name="region" placeholder="Search Region"
+           value="{{ request.args.get('region','') }}"
+           style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+
+    <select name="status"
+            style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+        <option value="">All Status</option>
+        <option value="Voted"
+            {% if request.args.get('status') == 'Voted' %}selected{% endif %}>
+            Voted
+        </option>
+        <option value="Not Voted"
+            {% if request.args.get('status') == 'Not Voted' %}selected{% endif %}>
+            Not Voted
+        </option>
+    </select>
+
+    <button type="submit"
+            style="padding:8px 15px; background:#1e3a5f; color:white;
+                   border:none; border-radius:6px;">
+        Filter
+    </button>
+
+    <a href="{{ url_for('electors') }}"
+       style="padding:8px 15px; background:#555; color:white;
+              border-radius:6px; text-decoration:none;">
+        Reset
+    </a>
+
+</form>
+
+  <div class="table-card">
+    <table class="electra-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Region</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in electors %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ e.name }}</td>
+          <td>{{ e.region }}</td>
+          <td>
+            {% if e.status == "Voted" %}
+              <span class="badge voted">Voted</span>
+            {% else %}
+              <span class="badge not-voted">Not Voted</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

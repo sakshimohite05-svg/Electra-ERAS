@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="profile-wrapper">
+
+    <div class="profile-card">
+
+        <!-- Avatar + Name -->
+        <div class="profile-top">
+            <div class="avatar">
+                {{ user.username[0]|upper }}
+            </div>
+
+            <h2>{{ user.username }}</h2>
+            <p class="role">{{ user.role|capitalize }}</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Info Section -->
+        <div class="profile-details">
+
+            <div class="info-row">
+                <span>📧 Email</span>
+                <p>{{ user.email }}</p>
+            </div>
+
+            {% if elector %}
+            <div class="info-row">
+                <span>📍 Region</span>
+                <p>{{ elector.region }}</p>
+            </div>
+
+            <div class="info-row">
+                <span>🗳 Voting Status</span>
+                <p class="{% if elector.status == 'Voted' %}status-voted{% else %}status-not{% endif %}">
+                    {{ elector.status }}
+                </p>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="profile-actions">
+            <a href="/edit-profile" class="btn edit">✏ Edit</a>
+            <a href="/change-password" class="btn pass">🔒 Password</a>
+            <a href="/logout" class="btn logout">🚪 Logout</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

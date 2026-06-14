@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        <h2 style="text-align:center; margin-bottom:20px;">✏ Edit Profile</h2>
+
+        <form method="POST">
+
+            <div class="info-row">
+                <label>Username</label>
+                <input type="text" name="username" value="{{ user.username }}" required>
+            </div>
+
+            <div class="info-row">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ user.email }}" required>
+            </div>
+
+            <div style="text-align:center; margin-top:20px;">
+                <button type="submit" class="btn edit">Update</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+body {
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard { padding: 40px; }
+
+.dashboard h2 {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #94a3b8;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.01);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 45px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 42px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.blue { background: linear-gradient(45deg,#60a5fa,#3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.green { background: linear-gradient(45deg,#22c55e,#4ade80); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.red { background: linear-gradient(45deg,#ef4444,#f87171); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+
+.charts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+canvas { margin-top: 10px; }
+
+@media(max-width: 900px){
+    .stats, .charts { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="dashboard">
+
+    <h2>Election Analysis Dashboard</h2>
+    <p class="subtitle">Visual Insights & Voting Statistics</p>
+
+    <div class="stats">
+        <div class="card">
+            <h3>Total Electors</h3>
+            <div class="stat-number blue">{{ total }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Voted</h3>
+            <div class="stat-number green">{{ voted }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Not Voted</h3>
+            <div class="stat-number red">{{ not_voted }}</div>
+        </div>
+    </div>
+
+    <div class="charts">
+
+        <div class="card">
+            <h3>Voting Participation</h3>
+            <canvas id="voteChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Region-wise Electors</h3>
+            <canvas id="regionChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Party Distribution</h3>
+            <canvas id="partyChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+// DOUGHNUT CHART
+const voteChart = new Chart(document.getElementById('voteChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Voted', 'Not Voted'],
+        datasets: [{
+            data: [{{ voted }}, {{ not_voted }}],
+            backgroundColor: ['#22c55e', '#ef4444']
+        }]
+    },
+    options: {
+        interaction: { mode: 'nearest', intersect: true },
+        plugins: { legend: { labels: { color: "#e2e8f0" } } },
+
+        onClick: (event, elements, chart) => {
+            const points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+            if (points.length) {
+                const i = points[0].index;
+                alert(chart.data.labels[i] + ": " + chart.data.datasets[0].data[i]);
+            }
+        }
+    }
+});
+
+// BAR CHART
+const regionChart = new Chart(document.getElementById('regionChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ region_names|tojson }},
+        datasets: [{
+            label: 'Total Electors',
+            data: {{ region_counts|tojson }},
+            backgroundColor: '#3b82f6'
+        }]
+    },
+    options: {
+        interaction: { mode: 'nearest', intersect: true },
+        plugins: { legend: { labels: { color: "#e2e8f0" } } },
+
+        scales: {
+            x: { ticks: { color: "#94a3b8" } },
+            y: { ticks: { color: "#94a3b8" } }
+        },
+
+        onClick: (event, elements, chart) => {
+            const points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+            if (points.length) {
+                const i = points[0].index;
+                alert(chart.data.labels[i] + ": " + chart.data.datasets[0].data[i] + " electors");
+            }
+        }
+    }
+});
+
+// PIE CHART
+const partyChart = new Chart(document.getElementById('partyChart'), {
+    type: 'pie',
+    data: {
+        labels: {{ party_names|tojson }},
+        datasets: [{
+            data: {{ party_votes|tojson }},
+            backgroundColor: ['#f97316','#3b82f6','#22c55e','#a855f7','#eab308']
+        }]
+    },
+    options: {
+        interaction: { mode: 'nearest', intersect: true },
+        plugins: { legend: { labels: { color: "#e2e8f0" } } },
+
+        onClick: (event, elements, chart) => {
+            const points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+            if (points.length) {
+                const i = points[0].index;
+                alert(chart.data.labels[i] + ": " + chart.data.datasets[0].data[i] + " votes");
+            }
+        }
+    }
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .back-link {
+        font-size: 15px;
+        color: #9bbcff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 15px;
+        transition: 0.2s ease;
+    }
+
+    .back-link:hover {
+        color: #ffffff;
+        transform: translateX(-3px);
+    }
+
+    .page-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .sub-info {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        background: rgba(255,255,255,0.03);
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+    }
+
+    /* Table Enhancements */
+    table {
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: rgba(59,130,246,0.15);
+    }
+
+    th, td {
+        padding: 14px !important;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        transition: 0.2s ease;
+    }
+
+    tbody tr:hover {
+        background: rgba(255,255,255,0.04);
+    }
+
+    /* Message preview */
+    .msg-cell {
+        max-width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Delete Button */
+    .delete-btn {
+        background: #1e3a5f;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        color: white;
+        font-size: 14px;
+        transition: 0.2s ease;
+    }
+
+    .delete-btn:hover {
+        background: #ff4d4d;
+        box-shadow: 0 0 10px rgba(255,77,77,0.4);
+    }
+
+    /* Empty state */
+    .empty-state {
+        color: #94a3b8;
+        font-size: 15px;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <a href="{{ url_for('admin_electors') }}" class="back-link">
+        ← Back to Admin
+    </a>
+
+    <h3 class="page-title">📩 Contact Messages</h3>
+
+    <!-- Small info (added, no logic change) -->
+    <div class="sub-info">
+        Total Messages: {{ messages|length }}
+    </div>
+
+    <div class="table-container">
+
+        {% if messages %}
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th style="width:110px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in messages %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ msg.name }}</td>
+                        <td>{{ msg.email }}</td>
+
+                        <!-- Only visual improvement -->
+                        <td class="msg-cell" title="{{ msg.message }}">
+                            {{ msg.message }}
+                        </td>
+
+                        <td>{{ msg.created_at }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_contact', id=msg.id) }}"
+                               class="delete-btn"
+                               onclick="return confirm('Delete this message?');">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="text-center py-4 empty-state">
+                No contact messages yet.
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h2>Verify OTP</h2>
+    <p>Enter the 6-digit OTP sent to your email</p>
+
+    <form method="POST">
+      <label>OTP</label>
+      <input type="text" name="otp" maxlength="6" required placeholder="Enter OTP">
+
+      <button type="submit">Verify OTP</button>
+    </form>
+
+    <a href="/forgot-password">← Resend OTP</a>
+  </div>
+</div>
+
+{% endblock %}

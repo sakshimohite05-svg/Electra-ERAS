@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="padding:40px;">
+
+    <!-- Title + Back Arrow -->
+    
+<div style="position:relative; margin-top:30px;">
+
+    <!-- Back Button -->
+    <a href="{{ url_for('admin_electors') }}"
+       style="
+       position:absolute;
+       left:0;
+       top:0;
+       font-size:20px;
+       text-decoration:none;
+       color:white;
+       background:#1e3a5f;
+       padding:8px 14px;
+       border-radius:8px;
+       transition:0.3s;">
+       ←
+    </a>
+
+    <h2 style="margin-left:60px;">
+        Admin - Contact Messages
+    </h2>
+
+</div>
+
+    <!-- Messages Table -->
+    <div style="
+        background:#173b63;
+        border-radius:10px;
+        overflow:hidden;
+        box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    ">
+
+        <table style="width:100%; border-collapse:collapse; color:white;">
+
+            <thead style="background:#1f4a77;">
+                <tr>
+                    <th style="padding:15px;">ID</th>
+                    <th style="padding:15px;">Name</th>
+                    <th style="padding:15px;">Email</th>
+                    <th style="padding:15px;">Message</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for msg in messages %}
+                <tr style="border-top:1px solid rgba(255,255,255,0.1);">
+                    <td style="padding:15px;">{{ msg.id }}</td>
+                    <td style="padding:15px;">{{ msg.name }}</td>
+                    <td style="padding:15px;">{{ msg.email }}</td>
+                    <td style="padding:15px;">{{ msg.message }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
